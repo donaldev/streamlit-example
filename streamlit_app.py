@@ -13,14 +13,16 @@ def fetch(session, url):
         print(e)
         return {}
 
-st.cache
+# st.cache
 def fetch_analytics(type,session, start_date, end_date):
     data = fetch(session,f"""http://localhost:8000/analytics/{type}/?start={start_date}&end={end_date}""")
     return data
 
 def main():
+    ## set page config for streamlit app
     st.set_page_config(page_title="Pocketed Metrics Dashboard",layout='wide', initial_sidebar_state='expanded')
     session = requests.Session()
+    ## import css styling
     with open('style.css') as f:
         st.markdown(f'<style>{f.read()}</style>', unsafe_allow_html=True)
 
