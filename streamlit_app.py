@@ -15,7 +15,7 @@ def fetch(session, url):
 
 # st.cache
 def fetch_analytics(type,session, start_date, end_date):
-    data = fetch(session,f"""http://api.hellopocketed.io/analytics/{type}/?start={start_date}&end={end_date}""")
+    data = fetch(session,f"""http://localhost:8000/analytics/{type}/?start={start_date}&end={end_date}""")
     return data
 
 def main():
