@@ -81,7 +81,7 @@ def main():
         with st.spinner("Generating Revenue Metrics..."):
             display_revenue_metrics(session, start_of_pocketed, end_date)
 
-
+    st.json(display_user_metrics())
     
 
 
