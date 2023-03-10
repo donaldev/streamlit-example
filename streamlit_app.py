@@ -11,7 +11,7 @@ def fetch(session, url):
         return result.json()
     except Exception as e:
         print(e)
-        return {}
+        return e
 
 # st.cache
 def fetch_analytics(type,session, start_date, end_date):
