@@ -11,7 +11,7 @@ def fetch(session, url):
         return result.json()
     except Exception as e:
         print(e)
-        return e
+        return {}
 
 # st.cache
 def fetch_analytics(type,session, start_date, end_date):
@@ -81,7 +81,7 @@ def main():
         with st.spinner("Generating Revenue Metrics..."):
             display_revenue_metrics(session, start_of_pocketed, end_date)
 
-    st.json(display_user_metrics())
+    
     
 
 
