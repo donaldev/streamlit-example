@@ -7,7 +7,8 @@ import requests
 
 def fetch(session, url):
     try:
-        result = session.get(url)
+        headers = {'secret': 'deepnd_metrics_secret'}
+        result = session.get(url, headers=headers)
         return result.json()
     except Exception as e:
         print(e)
@@ -16,6 +17,7 @@ def fetch(session, url):
 # st.cache
 def fetch_analytics(type,session, start_date, end_date):
     data = fetch(session,f"""http://localhost:8000/analytics/{type}/?start={start_date}&end={end_date}""")
+    print(data)
     return data
 
 def main():
@@ -37,14 +39,8 @@ def main():
     ---
     # Quarterly Goals
     ''')
-    sidebar.markdown("Objective 1: $65K B2C SaaS Revenue")
-    sidebar.markdown("Objective 2: $40K B2C Service Revenue")
-    sidebar.markdown("Objective 3: $15K B2B SaaS Revenue")
-    sidebar.markdown("")
-    sidebar.markdown("")
-    sidebar_button = sidebar.button("Refresh")
-    if sidebar_button:
-        st.experimental_rerun()
+    sidebar.markdown("Objective: $180K Total Revenue")
+
         
 
     since, total = st.tabs(["Date Range","Total"])
