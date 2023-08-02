@@ -39,7 +39,7 @@ def main():
     ---
     # Quarterly Goals
     ''')
-    sidebar.markdown("Objective: $180K Total Revenue")
+    sidebar.markdown("Objective: $275K Total Revenue")
 
         
 
