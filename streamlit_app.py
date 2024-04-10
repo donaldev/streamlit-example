@@ -96,15 +96,28 @@ def display_user_metrics(session, start_date, end_date):
 def display_freetrial_metrics(session, start_date, end_date):
 
     data = fetch_analytics("freetrial", session, start_date, end_date)
-    free_trial_starts = data.get('free_trials')
-    free_trial_cancellations = data.get('free_trial_cancellations')
-    free_trial_conversions = data.get('free_trial_conversions')
+    user_trial_starts = data.get('user_trials')
+    stripe_free_trial_starts = data.get('free_trial_starts')
+    user_trials_popup_seen = data.get('user_trials_popup_seen')
+    free_trials_ended = data.get('user_trials_ended')
+    free_trials_converted = data.get('user_trial_conversion_count')
+    free_trial_cancellations = data.get('stripe_trial_cancellations')
+    free_trial_conversions = data.get('stripe_trial_conversions')
+
+    st.markdown('### STRIPE Trial Metrics')
+    col2a,col5a, col5b = st.columns(3)
+    col2a.metric("Stripe Trial Starts", stripe_free_trial_starts, help="Users who **started a free stripe trial** within time period")
+    col5a.metric("Stripe Trials Cancelled", free_trial_cancellations, help="Users who converted from **'trialing'** to **'cancelled'** within time period")
+    col5b.metric("Stripe Trials Converted", free_trial_conversions, help="Users who converted from **'trialing'** to **'active'** within time period")
 
     st.markdown('### Free Trial Metrics')
-    col2, col3, col4 = st.columns(3)
-    col2.metric("Free Trial Starts", free_trial_starts, help="Users who **started a trial** within time period")
-    col3.metric("Free Trial Cancellations", free_trial_cancellations, help="Trialing users who cancelled and ended their trial, or cancelled Auto-Renewal within time period")
-    col4.metric("Free Trial Conversions", free_trial_conversions, help="Users who converted from **'trialing'** to **'active'** within time period")
+    col2,  col3, col4, col5  = st.columns(4)
+    col2.metric("User Trial Starts", user_trial_starts, help="Users who **activated their free trial** within time period")
+    col3.metric("User Trials with Login", user_trials_popup_seen, help="Users who *activated trial* and have seen the popup at least once")
+    col4.metric("User Trials ended", free_trials_ended, help="Trialing users who's trials have ended this period")
+    col5.metric("User Trials Converted", free_trials_converted, help="Users who converted from **'trialing'** to **'active'** within time period")
+    
+    
     
 def display_saas_metrics(session, start_date, end_date):
 
@@ -135,10 +148,8 @@ def display_saas_metrics(session, start_date, end_date):
 def display_revenue_metrics(session, start_date, end_date):
     data = fetch_analytics("revenue", session, start_date, end_date)
     saas_cad = data.get("saas")
-    service_cad = data.get("service")
     refunds_cad = data.get("refunds")
     refunds_count = data.get("refunds_count")
-    total_cad = data.get("total")
     
     st.markdown("""
     ### Analytics
@@ -146,11 +157,9 @@ def display_revenue_metrics(session, start_date, end_date):
      """)
     col8, col9 = st.columns(2)
     col8.metric("SaaS Revenue", f"${saas_cad}")
-    col9.metric("Service Revenue", f"${service_cad}")
+    col9.metric("Refunds", f"${refunds_cad}CAD", help=f"{refunds_count} refunds this period")
 
-    col10,col11 = st.columns(2)
-    col10.metric("Refunds", f"${refunds_cad}CAD", help=f"{refunds_count} refunds this period")
-    col11.metric("Total Net Revenue", f"${total_cad}", help=f"Saas revenue + Service revenue - Refunds")
+
 
 def get_current_quarter():
     # Get the current date
